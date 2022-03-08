@@ -1,30 +1,44 @@
 module github.com/karnott/pubsub-to-pubsub
 
-go 1.12
+go 1.17
 
 require (
-	cloud.google.com/go v0.34.0
-	github.com/golang/protobuf v1.3.1 // indirect
-	github.com/googleapis/gax-go v1.0.2 // indirect
-	github.com/hashicorp/golang-lru v0.5.1 // indirect
+	cloud.google.com/go/pubsub v1.19.0
+	github.com/sirupsen/logrus v1.8.1
+	github.com/spf13/cobra v1.3.0
+	github.com/spf13/viper v1.10.1
+	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b
+	google.golang.org/api v0.70.0
+)
+
+require (
+	cloud.google.com/go v0.100.2 // indirect
+	cloud.google.com/go/compute v1.3.0 // indirect
+	cloud.google.com/go/iam v0.1.0 // indirect
+	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/go-cmp v0.5.7 // indirect
+	github.com/googleapis/gax-go/v2 v2.1.1 // indirect
+	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
-	github.com/sirupsen/logrus v1.4.0
-	github.com/spf13/afero v1.2.1 // indirect
-	github.com/spf13/cobra v0.0.3
+	github.com/magiconair/properties v1.8.5 // indirect
+	github.com/mitchellh/mapstructure v1.4.3 // indirect
+	github.com/pelletier/go-toml v1.9.4 // indirect
+	github.com/spf13/afero v1.6.0 // indirect
+	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/viper v1.3.2
-	go.opencensus.io v0.19.2 // indirect
-	golang.org/x/crypto v0.0.0-20190320223903-b7391e95e576 // indirect
-	golang.org/x/exp v0.0.0-20190321205749-f0864edee7f3 // indirect
-	golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3 // indirect
-	golang.org/x/net v0.0.0-20190324223953-e3b2ff56ed87 // indirect
-	golang.org/x/oauth2 v0.0.0-20190319182350-c85d3e98c914
-	golang.org/x/sys v0.0.0-20190322080309-f49334f85ddc // indirect
-	golang.org/x/tools v0.0.0-20190322203728-c1a832b0ad89 // indirect
-	google.golang.org/api v0.2.0
-	google.golang.org/appengine v1.5.0 // indirect
-	google.golang.org/genproto v0.0.0-20190321212433-e79c0c59cdb5 // indirect
-	google.golang.org/grpc v1.19.1 // indirect
-	honnef.co/go/tools v0.0.0-20190315113450-95959eaf5e3c // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/subosito/gotenv v1.2.0 // indirect
+	go.opencensus.io v0.23.0 // indirect
+	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
+	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
+	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/genproto v0.0.0-20220222213610-43724f9ea8cf // indirect
+	google.golang.org/grpc v1.44.0 // indirect
+	google.golang.org/protobuf v1.27.1 // indirect
+	gopkg.in/ini.v1 v1.66.2 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
