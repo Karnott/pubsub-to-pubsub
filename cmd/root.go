@@ -114,12 +114,18 @@ var RootCmd = &cobra.Command{
 		sub.ReceiveSettings.MaxOutstandingMessages = pubSubMaxOutstandingMessages
 
 		topic := toClient.Topic(cfg.PubSubDestinationTopic)
+		// Keep the source ordering key: an ordered source subscription then stays ordered on the destination.
+		topic.EnableMessageOrdering = true
 
 		err = sub.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
-			if _, err = topic.Publish(ctx, msg).Get(ctx); err == nil {
+			if _, err := topic.Publish(ctx, msg).Get(ctx); err == nil {
 				msg.Ack()
 			} else {
 				logrus.Errorf("err when inserting data: %v", err)
+				// After a failure the client refuses the key until it is resumed.
+				if msg.OrderingKey != "" {
+					topic.ResumePublish(msg.OrderingKey)
+				}
 				msg.Nack()
 			}
 		})
