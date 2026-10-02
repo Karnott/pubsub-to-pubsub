@@ -5,7 +5,7 @@ ADD . $GOPATH/src/github.com/karnott/pubsub-to-pubsub/
 
 RUN go clean
 RUN go mod vendor
-RUN go build -o /pubsub-to-pubsub main.go
+RUN CGO_ENABLED=0 go build -o /pubsub-to-pubsub main.go
 
 FROM alpine
 WORKDIR /app

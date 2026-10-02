@@ -28,12 +28,14 @@ const (
 	paramToGoogleApplicationCredentials   = "to-google-application-credentials-json"
 	paramPubSubSubscription               = "pubsub-subscription"
 	paramPubSubDestinationTopic           = "pubsub-destination-topic"
+	paramPubSubMaxOutstandingMessages     = "pubsub-max-outstanding-messages"
 
 	// default parameters values
 	defaultLogLevel  = "debug"
 	defaultLogFormat = "json"
 
-	pubSubMaxOutstandingMessages = 10
+	// Each message waits for its publication (~80 ms): 10 in flight capped the bridge at ~125 msg/s.
+	defaultPubSubMaxOutstandingMessages = "1000"
 )
 
 // Config configuration
@@ -46,6 +48,7 @@ type Config struct {
 	ToGoogleApplicationCredentials   string
 	PubSubSubscription               string
 	PubSubDestinationTopic           string
+	PubSubMaxOutstandingMessages     int
 }
 
 var (
@@ -89,6 +92,10 @@ var RootCmd = &cobra.Command{
 			_, _ = fmt.Fprintf(os.Stderr, "PUBSUB_SUBSCRIPTION variable must be set.\n")
 			os.Exit(1)
 		}
+		if cfg.PubSubMaxOutstandingMessages < 1 {
+			_, _ = fmt.Fprintf(os.Stderr, "PUBSUB_MAX_OUTSTANDING_MESSAGES must be at least 1.\n")
+			os.Exit(1)
+		}
 		if cfg.PubSubDestinationTopic == "" {
 			_, _ = fmt.Fprintf(os.Stderr, "PUBSUB_DESTINATION_TOPIC variable must be set.\n")
 			os.Exit(1)
@@ -111,7 +118,7 @@ var RootCmd = &cobra.Command{
 		}
 
 		sub := fromClient.Subscription(cfg.PubSubSubscription)
-		sub.ReceiveSettings.MaxOutstandingMessages = pubSubMaxOutstandingMessages
+		sub.ReceiveSettings.MaxOutstandingMessages = cfg.PubSubMaxOutstandingMessages
 
 		topic := toClient.Topic(cfg.PubSubDestinationTopic)
 		// Keep the source ordering key: an ordered source subscription then stays ordered on the destination.
@@ -157,6 +164,7 @@ func init() {
 	configureFlag(paramToGoogleApplicationCredentials, "", "google cloud credentials to use for publication access")
 	configureFlag(paramPubSubSubscription, "", "google cloud subscription")
 	configureFlag(paramPubSubDestinationTopic, "", "google cloud destination topic")
+	configureFlag(paramPubSubMaxOutstandingMessages, defaultPubSubMaxOutstandingMessages, "messages handled at the same time")
 }
 
 func configureFlag(flagName, defaultValue, usage string) {
@@ -182,4 +190,5 @@ func initConfig() {
 	cfg.ToGoogleApplicationCredentials = viper.GetString(paramToGoogleApplicationCredentials)
 	cfg.PubSubSubscription = viper.GetString(paramPubSubSubscription)
 	cfg.PubSubDestinationTopic = viper.GetString(paramPubSubDestinationTopic)
+	cfg.PubSubMaxOutstandingMessages = viper.GetInt(paramPubSubMaxOutstandingMessages)
 }
